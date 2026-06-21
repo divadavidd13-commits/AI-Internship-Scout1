@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+.env
+cron.log
+internships.json
+history.json
