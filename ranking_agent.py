@@ -1,6 +1,21 @@
-def rank_internships(internships):
+def rank_internships(internships, top_count=25):
 
     unique = {}
+
+    trusted_companies = [
+        "google",
+        "microsoft",
+        "apple",
+        "amazon",
+        "nvidia",
+        "intel",
+        "meta",
+        "openai",
+        "tesla",
+        "tiktok",
+        "notion",
+        "gptzero"
+    ]
 
     for internship in internships:
 
@@ -10,23 +25,43 @@ def rank_internships(internships):
         role = internship["role"].lower()
         link = internship.get("link", "").lower()
 
-        trusted_companies = [
-            "google",
-            "microsoft",
-            "apple",
-            "ibm",
-            "amazon",
-            "nvidia",
-            "intel",
-            "jpmorgan"
-        ]
-
         for trusted in trusted_companies:
+
             if trusted in company:
                 score += 20
 
-        if "careers" in link:
+        if "ai" in role:
+            score += 15
+
+        if "machine learning" in role:
+            score += 15
+
+        if "ml" in role:
+            score += 10
+
+        if "computer vision" in role:
+            score += 15
+
+        if "nlp" in role:
+            score += 15
+
+        if "llm" in role:
             score += 20
+
+        if "generative ai" in role:
+            score += 20
+
+        if "research" in role:
+            score += 10
+
+        if "software engineer" in role:
+            score += 10
+
+        if "developer" in role:
+            score += 5
+
+        if "careers" in link:
+            score += 10
 
         internship["final_score"] = score
 
@@ -47,4 +82,4 @@ def rank_internships(internships):
         reverse=True
     )
 
-    return ranked[:10]
+    return ranked[:top_count]

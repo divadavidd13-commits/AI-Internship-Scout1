@@ -8,17 +8,69 @@ from email_agent import send_email
 from location_filter_agent import filter_by_location
 
 keyword = input(
-    "Enter internship keyword: "
-)
+    "Enter internship keyword (or 'all'): "
+).strip().lower()
 
 location_mode = input(
     "Region (india/usa/europe/singapore/malaysia/australia/newzealand/china/all): "
 )
 
-results = search_linkedin(
-    keyword,
-    location_mode
-)
+top_count = input(
+    "How many results? (10/25/50): "
+).strip()
+
+if top_count not in ["10", "25", "50"]:
+    top_count = "25"
+
+top_count = int(top_count)
+
+if keyword == "all":
+
+    keywords = [
+        "ai",
+        "machine learning",
+        "data science",
+        "software engineer",
+        "python",
+        "web development",
+        "cloud",
+        "devops",
+        "cybersecurity",
+        "electronics",
+        "embedded systems",
+        "iot"
+    ]
+
+    results = []
+
+    for kw in keywords:
+
+        print(f"Searching: {kw}")
+
+        jobs = search_linkedin(
+            kw,
+            location_mode
+        )
+
+        results.extend(jobs)
+
+    unique_jobs = {}
+
+    for job in results:
+
+        link = job.get("link")
+
+        if link:
+            unique_jobs[link] = job
+
+    results = list(unique_jobs.values())
+
+else:
+
+    results = search_linkedin(
+        keyword,
+        location_mode
+    )
 
 filtered_results = filter_internships(
     results
@@ -32,7 +84,7 @@ for internship in filtered_results:
         internship
     )
 
-    if score >= 60:
+    if score >= 50:
 
         internship["score"] = score
 
@@ -41,7 +93,8 @@ for internship in filtered_results:
         )
 
 top_internships = rank_internships(
-    verified_results
+    verified_results,
+    top_count
 )
 
 top_internships = filter_by_location(
@@ -66,6 +119,10 @@ print(
     "\nNEW INTERNSHIPS:",
     len(new_internships)
 )
+
+if not new_internships:
+
+    print("No new internships found.")
 
 for internship in new_internships:
 

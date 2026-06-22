@@ -20,11 +20,7 @@ def search_linkedin(keyword, region="all"):
 
         search_term = item + " intern"
 
-        print(
-            "Searching:",
-            search_term
-        )
-
+        
         url = (
             "https://www.linkedin.com/jobs/search/"
             "?keywords="
@@ -96,5 +92,24 @@ def search_linkedin(keyword, region="all"):
                         if link_tag else ""
                 }
             )
+
+    # Remove duplicate internships using LinkedIn URL
+
+    unique = {}
+
+    for internship in internships:
+
+        link = internship.get(
+            "link",
+            ""
+        ).strip()
+
+        if link and link not in unique:
+
+            unique[link] = internship
+
+    internships = list(
+        unique.values()
+    )
 
     return internships
