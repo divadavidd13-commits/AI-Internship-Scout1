@@ -268,7 +268,9 @@ with col3:
 with col4:
     st.markdown('<div class="section-label">&nbsp;</div>', unsafe_allow_html=True)
     search_clicked = st.button("🔍 Search", use_container_width=True)
-
+user_email = st.text_input(
+    "Enter your Email Address"
+)
 st.markdown("<hr>", unsafe_allow_html=True)
 
 # ── Session state ─────────────────────────────────────────────────────────────
@@ -279,6 +281,12 @@ if "metrics" not in st.session_state:
 
 # ── Search workflow ───────────────────────────────────────────────────────────
 if search_clicked:
+
+    if not user_email:
+        st.error(
+            "Please enter your email address"
+        )
+        st.stop()
 
     start_time = time.time()
 
