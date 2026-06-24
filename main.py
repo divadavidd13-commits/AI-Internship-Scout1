@@ -135,6 +135,7 @@ for internship in new_internships:
 
 send_email(
     new_internships
+   
 )
 
 print(

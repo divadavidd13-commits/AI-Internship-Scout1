@@ -7,7 +7,11 @@ from config import (
 )
 
 
-def send_email(new_internships):
+
+def send_email(
+    new_internships,
+    receiver_email
+):
 
     if len(new_internships) == 0:
 
@@ -49,7 +53,8 @@ def send_email(new_internships):
 
     msg["From"] = SENDER_EMAIL
 
-    msg["To"] = RECIPIENT_EMAIL
+    
+    msg["To"] = receiver_email
 
     msg.set_content(body)
 

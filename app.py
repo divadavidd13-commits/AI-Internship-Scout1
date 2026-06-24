@@ -384,7 +384,11 @@ if search_clicked:
     # ── Step 8: Email ─────────────────────────────────────────────────────────
     with st.spinner("Sending email digest…"):
         try:
-            send_email(new_internships)
+            
+          send_email(
+               new_internships,
+               user_email
+          )
         except Exception as e:
             st.warning(f"Email skipped: {e}")        
 
